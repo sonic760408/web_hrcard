@@ -21,12 +21,12 @@
             <AppenderRef ref="${project.artifactId}-Rolling" />
         </Logger>
         
-        <Logger name="com.tintin.*" level="DEBUG" additivity="true">
+        <Logger name="com.tintin.*" level="info" additivity="true">
             <AppenderRef ref="console" />
             <AppenderRef ref="${project.artifactId}-Rolling" />
         </Logger>
         
-        <Root level="debug"> <!-- setting log default level -->
+        <Root level="info"> <!-- setting log default level -->
             <AppenderRef ref="console" />
             <AppenderRef ref="${project.artifactId}-Rolling" />
         </Root>

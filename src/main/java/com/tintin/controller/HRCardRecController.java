@@ -119,7 +119,7 @@ public class HRCardRecController {
     @ResponseBody
     public String queryHRCardRec(HttpServletRequest request, @ModelAttribute("hrcardrecForm") @Validated HRCardRecForm _hrcardrecform,
             Model model) {
-
+        log.info("query()");
         HRCardRec qhrcardrec;
         HRCardRecForm hrform;
         String qlimit;
@@ -131,7 +131,7 @@ public class HRCardRecController {
                 return "{\"error\":\"hrform null\"}";
             }
 
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
             Date qdate = new Date();
             try {
@@ -159,6 +159,11 @@ public class HRCardRecController {
             } catch (ParseException ex) {
                 log.error(ex.getMessage(), ex);
             }
+            
+            //set datetime as 23:59:59
+            qdate.setHours(23);
+            qdate.setMinutes(59);
+            qdate.setSeconds(59);
 
             qhrcardrec = new HRCardRec(_hrcardrecform.getIdno(), _hrcardrecform.getEmpno(),
                     qdate, _hrcardrecform.getCardtype(), _hrcardrecform.getIp());
@@ -173,6 +178,7 @@ public class HRCardRecController {
         String str = genJSONResponse(hrcardreclist);
 
         //return json body for android parser
+        log.info(" RESPONSE: " + str);
         return str;
     }
 
@@ -182,7 +188,7 @@ public class HRCardRecController {
     public String insertHRCardRec(HttpServletRequest request, @ModelAttribute("hrcardrecForm") HRCardRecForm _hrcardrecform,
             Model model) {
 
-        log.warn("insertUser()");
+        log.info("insertUser()");
         //log.error("saveOrUpdateUser() : {}", _hrcardrec);
         //log.debug("Context :" + _hrcardrec.toString());
         //set carddt as now time
@@ -283,6 +289,7 @@ public class HRCardRecController {
 
         //return json body for android parser to incident success
         //if any items is null, hrcard failed
+        log.info(" RESPONSE: " + str);
         return str;
     }
 
@@ -386,6 +393,7 @@ public class HRCardRecController {
          }
          */
         //End session content
+        log.info("DoJSON()");
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader bufferedReader = null;
         try {
@@ -413,7 +421,7 @@ public class HRCardRecController {
         }
 
         String body = stringBuilder.toString();
-        log.info(" XXXX BODY: " + body);
+        log.info(" JSON BODY: " + body);
 
         String jsonString = body;
         JSONObject obj = new JSONObject(jsonString);
